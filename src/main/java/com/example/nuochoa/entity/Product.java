@@ -1,18 +1,21 @@
     package com.example.nuochoa.entity;
 
-    import com.fasterxml.jackson.annotation.JsonIgnore;
+    import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
     import jakarta.persistence.*;
+    import lombok.AllArgsConstructor;
     import lombok.Getter;
+    import lombok.NoArgsConstructor;
     import lombok.Setter;
     import org.hibernate.annotations.ColumnDefault;
     import org.hibernate.annotations.Nationalized;
 
     import java.math.BigDecimal;
     import java.time.LocalDateTime;
-    import java.util.List;
 
     @Getter
     @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
     @Entity
     @Table(name = "products")
     public class Product {
@@ -70,15 +73,24 @@
         @ColumnDefault("0")
         private Integer viewCount;
 
-        @ColumnDefault("getdate()")
         @Column(name = "created_at")
         private LocalDateTime createdAt;
 
         @Column(name = "updated_at")
         private LocalDateTime updatedAt;
 
-//        @ManyToOne
-//        @JoinColumn(name = "brand_id" , referencedColumnName = "id")
-//         private BrandsEntity brandsEntity;
+        @ManyToOne(fetch = FetchType.EAGER)
+        @JoinColumn(name = "brand_id", referencedColumnName = "id")
+        private BrandsEntity brand;
+
+        // Getter để serialize brand cho frontend
+        public BrandsEntity getBrand() {
+            return brand;
+        }
+
+        // Setter để deserialize brand từ frontend
+        public void setBrand(BrandsEntity brand) {
+            this.brand = brand;
+        }
 
     }

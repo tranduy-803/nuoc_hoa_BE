@@ -20,9 +20,8 @@ public class ProductSevices {
     public void deleteProduct(Integer id){
         productRepository.deleteById(id);
     }
-    public void saveProduct(Product product){
-
-        productRepository.save(product);
+    public Product saveProduct(Product product){
+        return productRepository.save(product);
     }
     public Product getProduct(Integer id){
         return productRepository.findById(id).orElse(null);
